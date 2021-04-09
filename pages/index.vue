@@ -11,7 +11,7 @@
         <div class="col-12">
           <h2>In-house Works</h2>
         </div>
-        <div v-for="item in item_json" v-if="item['id'] < 3" class="grid col-4_sm-8 item" @click="openModal(item['id'])">
+        <div v-for="item in item_json" v-if="item['id'] < 3" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])">
           <nuxt-img class="item-img" :width="img_w_item" :height="img_h_item" :src="item['img']" style="object-fit: cover;width: 100%" loading="lazy" alt="header-img" />
           {{item["title"]}}
         </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
           <h2>Private Works</h2>
         </div>
-        <div v-for="item in item_json" v-if="item['id'] > 2" class="grid col-4_sm-8 item" @click="openModal(item['id'])">
+        <div v-for="item in item_json" v-if="item['id'] > 2" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])">
           <nuxt-img class="item-img" :width="img_w_item" :height="img_h_item" :src="item['img']" style="object-fit: cover;width: 100%" loading="lazy" alt="header-img" />
           {{item["title"]}}
         </div>
@@ -59,7 +59,6 @@
         <div class="col-4_sm-6 item">
           <div class="circle anime1 live"><div class="circle-inner">ライブ配信</div></div>
         </div>
-
       </div>
     </div>
     <div class="col-12 works bg-birthday-color-sub">
@@ -89,7 +88,7 @@
         <div class="modal-window" style="max-height: 90vh">
           <div class="modal-header" style="position: relative">
             {{ title }}
-            <button @click="closeModal" style="position: absolute;right: .6rem;top: .6rem;background: none;border: none;color: #555">×</button>
+            <button @click="closeModal" style="position: absolute;right: .6rem;top: .6rem;background: none;border: none;color: #555;cursor: pointer">×</button>
           </div>
           <div class="modal-content" style="overflow-y: auto;max-height: 80vh;">
             <div class="">

@@ -15,7 +15,9 @@ export default {
       { hid: 'og:title', property: 'og:title', content: 'ポートフォリオ | マキタ ナオキ' },
       { hid: 'og:description', property: 'og:description', content: 'マキタナオキのポートフォリオサイトです。webページなどの個人製作を行っています。' },
       { hid: 'og:url', property: 'og:url', content: 'https://portfolio.klavier.page' },
-      { hid: 'og:image', property: 'og:image', content: '/naoki_makita_og.png' }
+      { hid: 'og:image', property: 'og:image', content: '/naoki_makita_og.png' },
+      { hid: 'twitter:card', property: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'twitter:site', property: 'twitter:site', content: '@miraxial' }
     ],
     link: [
       { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.3.1/gridlex.min.css" },

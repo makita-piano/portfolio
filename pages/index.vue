@@ -159,7 +159,7 @@
         this.img_w_modal = 360;
       }
       else{
-        this.img_w_item = parseInt( this.vw * 2 / 3 - 20)
+        this.img_w_item = parseInt( this.vw * 2 / 3)
         this.img_w_modal = this.img_w_item
       }
       this.img_h_item = parseInt(this.img_w_item * 2 / 3)
@@ -200,7 +200,6 @@
 }
 
 #page .item {
-  padding: 10px;
   text-decoration: underline;
   margin: 1rem 0;
 }
@@ -510,6 +509,11 @@ h2 {
   .logo {
     height: 700px;
   }
+
+  #page .item {
+    padding: 10px;
+  }
+
 
   .modal-window {
     max-width: 768px;

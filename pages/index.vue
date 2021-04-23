@@ -135,8 +135,8 @@
           {id: 4, title: "音楽教室", img: "/p2.png",
           text: "<p>ROLE：Coding<br>URL：<a href='https://cjmtokyo.com/'>https://cjmtokyo.com/</p>"
           },
-          {id: 5, title: "宿泊所(未完成)", img: "/p3.png",
-          text: "<p>ROLE：Design／Coding／Writing<br>URL：<a href='https://launion.page/'>https://launion.page/</p>"
+          {id: 5, title: "宿泊所", img: "/p3.png",
+          text: "<p>ROLE：Design／Coding<br>URL：<a href='https://launion.page/'>https://launion.page/</p>"
           },
         ]
       }

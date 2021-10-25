@@ -11,7 +11,7 @@
         <div class="col-12">
           <h2>In-house Works</h2>
         </div>
-        <div v-for="item in item_json" v-if="item['id'] < 3" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])">
+        <div v-for="item in this.in_house_work_item" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])" :key="item['id']">
           <nuxt-img class="item-img" :width="img_w_item" :height="img_h_item" :src="item['img']" style="object-fit: cover;width: 100%" loading="lazy" alt="header-img" />
           {{item["title"]}}
         </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
           <h2>Private Works</h2>
         </div>
-        <div v-for="item in item_json" v-if="item['id'] > 2" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])">
+        <div v-for="item in private_work_item" class="grid col-4_sm-8 item" style="cursor: pointer" @click="openModal(item['id'])" :key="item['id']">
           <nuxt-img class="item-img" :width="img_w_item" :height="img_h_item" :src="item['img']" style="object-fit: cover;width: 100%" loading="lazy" alt="header-img" />
           {{item["title"]}}
         </div>
@@ -68,7 +68,7 @@
         </div>
         <div class="about" style="margin: auto">
           <p style="display:inline-block;vertical-align:top;margin: 0">
-            <nuxt-img class="" :width="112" src="/naoki_makita.jpg" style="object-fit: cover;border-radius: 1rem;" loading="lazy" alt="header-img" />
+            <nuxt-img class="" width="112" src="/naoki_makita.jpg" style="object-fit: cover;border-radius: 1rem;" loading="lazy" alt="header-img" />
           </p>
           <br class="display-none-pc">
           <div class="about-div" style="display:inline-block;vertical-align:top">
@@ -76,15 +76,16 @@
               マキタ　ナオキ
             </h3>
             <div class="col-12">
-              <p>webページなどの個人製作を行っています。<br>
-              <a href="https://twitter.com/miraxial">ご依頼はDMまで。</a></p>
+              <p>
+                <a href="https://twitter.com/miraxial">ご依頼はDMまで。</a>
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <transition name="modal" appear v-if="modal">
-      <div class="modal modal-overlay" @click="closeModal">
+      <div class="modal modal-overlay" @click.self="closeModal">
         <div class="modal-window" style="max-height: 90vh">
           <div class="modal-header" style="position: relative">
             {{ title }}
@@ -119,7 +120,7 @@
         img: undefined,
         vw: undefined,
         title: "",
-        item_json: [
+        item: [
           {id: 0, title: "保守・運用", img: "/i1.jpg",
           text: "<h3>◆&nbsp仕事内容</h3><p>社員30名、アルバイト30名程度の事業会社で社内の保守・運用をしてきました。うちシステム部５名、キャリア４年。</p><h3>◆&nbspできること（システム）</h3><p>リモート環境構築／システム機器購入／社内サーバーの管理／Gmailなどの外部アプリやPC、社内システムの使い方レクチャー・不具合対処／Youtube Live配信</p><h3>◆&nbsp楽しみ</h3><p>「この作業、もっと楽にできないかな？」の解決を楽しみにしています。<br>その為には、社内ほか事業部の情報インプットが大事です。部分最適にならないように気を付けつつ、素早くシステム改善ができることが社内SEの強みだと考えています。</p>"
           },
@@ -127,26 +128,26 @@
           text: "<h3>◆&nbsp仕事内容</h3><p>電話応対・メール応対・来客応対を週10時間程度行っています。<br>主にWebページの使い方や不明点の説明、決済などによるシステムエラーの状況伺いなどをしますが、事業にまつわるものも対応可能な範囲のものは回答します。<br>問合せの原因がシステム不具合だった場合は、お客様への対応と共に、Webシステム(CakePHP , Ruby on Rails , Vue.js)の改修やMySQLなどのデータ操作、再発防止の対策をします。</p><h3>◆&nbsp楽しみ</h3><p>お客様の作業時間を減らすことを楽しみにしています。<br>サポートを受ける場合、大体、お客様は何かに困っています。そのお客様に対して、「その情報はここから閲覧できますよ」などのピンポイントな解決方法だけでなく、「ここに困るということは、こういう情報も足りてないのでは？」など＋αでお手伝いし、お客様の無駄な時間を減らすことに試行錯誤しています。</p>"
           },
           {id: 2, title: "社内システム改修", img: "/i3.jpg",
-          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。ClarisEngage2020登壇<p>"
+          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a><p>"
           },
           {id: 3, title: "イベントスペース", img: "/p1.png",
           text: "<p>ROLE：Design／Coding／Writing<br>URL：<a href='https://sv-rikugien.klavier.page/'>https://sv-rikugien.klavier.page/</p>"
           },
           {id: 4, title: "音楽教室", img: "/p2.png",
-          text: "<p>ROLE：Coding<br>URL：<a href='https://cjmtokyo.com/'>https://cjmtokyo.com/</p>"
+          text: "<p>ROLE：Coding<br>URL：<a href='https://cjmtokyo.com/' target='_blank' rel='noreferrer'>https://cjmtokyo.com/</p>"
           },
           {id: 5, title: "宿泊所", img: "/p3.png",
-          text: "<p>ROLE：Design／Coding<br>URL：<a href='https://launion.page/'>https://launion.page/</p>"
+          text: "<p>ROLE：Design／Coding<br>URL：<a href='https://launion.page/'target='_blank' rel='noreferrer'>https://launion.page/</p>"
           },
-        ]
+        ],
       }
     },
     methods: {
       openModal(number) {
         this.modal = true;
-        this.title = this.item_json[number]["title"];
-        this.img = this.item_json[number]["img"];
-        this.text = this.item_json[number]["text"]
+        this.title = this.item[number]["title"];
+        this.img = this.item[number]["img"];
+        this.text = this.item[number]["text"]
       },
       closeModal() {
         this.modal = false
@@ -166,6 +167,18 @@
       this.img_h_modal = "auto"
       this.img_w_header_img = this.vw;
     },
+    computed: {
+      in_house_work_item: function(){
+        return this.item.filter(function(data){
+          return data['id'] < 3
+        })
+      },
+      private_work_item: function(){
+        return this.item.filter(function(data){
+          return data['id'] > 2
+        })
+      },
+    }
   }
 </script>
 

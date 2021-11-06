@@ -77,7 +77,7 @@
             </h3>
             <div class="col-12">
               <p>
-                <a href="https://twitter.com/miraxial">ご依頼はDMまで。</a>
+                <a href="https://twitter.com/miraxial">ご用の際ははDMまで。</a>
               </p>
             </div>
           </div>

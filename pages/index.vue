@@ -130,7 +130,7 @@
           {id: 2, title: "社内システム改修", img: "/i3.jpg",
           text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a><p>"
           },
-          {id: 3, title: "イベントスペース", img: "/p1.png",
+          {id: 3, title: "イベントスペース(停止中)", img: "/p1.png",
           text: "<p>ROLE：Design／Coding／Writing<br>URL：<a href='https://sv-rikugien.klavier.page/'>https://sv-rikugien.klavier.page/</p>"
           },
           {id: 4, title: "音楽教室", img: "/p2.png",

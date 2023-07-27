@@ -76,9 +76,7 @@
               マキタ　ナオキ
             </h3>
             <div class="col-12">
-              <p>
-                <a href="https://twitter.com/miraxial">ご用の際はDMまで。</a>
-              </p>
+              <p><a href="mailto:contact@klavier.page" target="_blank" rel="noopener"><span style="text-decoration: underline">ご用の際はメールまで</span></a><br></p>
             </div>
           </div>
         </div>
@@ -109,6 +107,7 @@
 </template>
 
 <script>
+  import mailgo from "mailgo"
   export default {
     data() {
       return {
@@ -152,6 +151,18 @@
       closeModal() {
         this.modal = false
       }
+    },
+    created() {
+      const mailgo_config = {
+        tel: false,
+        sms: false,
+        dark: true,
+        actions: {
+          yahoo: false,
+          outlook: false,
+        }
+      }
+      mailgo(mailgo_config);
     },
     mounted() {
       this.vw = window.innerWidth;

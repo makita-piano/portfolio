@@ -419,6 +419,12 @@ h2 {
   animation: rotate-circle-right-240 6s linear infinite;
 }
 
+.anime4::before {
+  animation: rotate-circle-left-240 6s linear infinite;
+}
+.anime4::after {
+  animation: rotate-circle-right-240-o 6s linear infinite;
+}
 
 
 
@@ -531,6 +537,24 @@ h2 {
     100% {
         transform: rotate(0deg);
         background: #438BAA;
+    }
+}
+
+@keyframes rotate-circle-right-240-o {
+    0%   {
+        transform: rotate(0deg);
+        background: #FFF6E7;
+    }
+    22.5%  {
+        background: #FFF6E7;
+    }
+    22.6% {
+        transform: rotate(0deg);
+        background: #FFB566;
+    }
+    100% {
+        transform: rotate(0deg);
+        background: #FFB566;
     }
 }
 

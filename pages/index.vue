@@ -64,7 +64,7 @@
             <div class="circle anime2 isms"><div class="circle-inner">ISMS</div></div>
           </div>
           <div class="col-5_sm-6 item">
-            <div class="circle anime3 engr"><div class="circle-inner">情シス</div></div>
+            <div class="circle anime4 engr"><div class="circle-inner">情シス</div></div>
           </div>
         </div>
       </div>

@@ -59,6 +59,14 @@
         <div class="col-4_sm-6 item">
           <div class="circle anime1 live"><div class="circle-inner">ライブ配信</div></div>
         </div>
+        <div class="grid-center col-10_sm-12">
+          <div class="col-5_sm-6 item">
+            <div class="circle anime2 isms"><div class="circle-inner">ISMS</div></div>
+          </div>
+          <div class="col-5_sm-6 item">
+            <div class="circle anime3 engr"><div class="circle-inner">情シス</div></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-12 works bg-birthday-color-sub">
@@ -127,7 +135,7 @@
           text: "<h3>◆&nbsp仕事内容</h3><p>電話応対・メール応対・来客応対を週10時間程度行っています。<br>主にWebページの使い方や不明点の説明、決済などによるシステムエラーの状況伺いなどをしますが、事業にまつわるものも対応可能な範囲のものは回答します。<br>問合せの原因がシステム不具合だった場合は、お客様への対応と共に、Webシステム(CakePHP , Ruby on Rails , Vue.js)の改修やMySQLなどのデータ操作、再発防止の対策をします。</p><h3>◆&nbsp楽しみ</h3><p>お客様の作業時間を減らすことを楽しみにしています。<br>サポートを受ける場合、大体、お客様は何かに困っています。そのお客様に対して、「その情報はここから閲覧できますよ」などのピンポイントな解決方法だけでなく、「ここに困るということは、こういう情報も足りてないのでは？」など＋αでお手伝いし、お客様の無駄な時間を減らすことに試行錯誤しています。</p>"
           },
           {id: 2, title: "社内システム改修", img: "/i3.jpg",
-          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a><p>"
+          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a></p>"
           },
           {id: 3, title: "イベントスペース(停止中)", img: "/p1.png",
           text: "<p>ROLE：Design／Coding／Writing<br>URL：<a href='https://sv-rikugien.klavier.page/'>https://sv-rikugien.klavier.page/</p>"
@@ -345,6 +353,25 @@ h2 {
 .live::before , .live::after{
   background: #FFE6D9;
 }
+
+.isms {
+  background: #003399;
+}
+
+.isms::before , .isms::after{
+  background: #CAC8FF;
+}
+
+.engr {
+  background: #FFB566;
+}
+
+.engr::before , .engr::after{
+  background: #FFF6E7;
+}
+
+
+
 
 
 

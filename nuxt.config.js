@@ -23,7 +23,14 @@ export default {
       { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/gridlex/2.3.1/gridlex.min.css" },
       { rel: 'icon', type: 'image/x-icon', href: 'https://portfolio.klavier.page/favicon.ico' },
       { rel: 'canonical', href: 'https://portfolio.klavier.page' }
-    ]
+    ],
+    script: [
+      {
+        src: 'https://unpkg.com/mailgo@0.12.2/dist/mailgo.min.js',
+        body: true,
+        defer: true
+      }
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)

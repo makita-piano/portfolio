@@ -115,7 +115,6 @@
 </template>
 
 <script>
-  import mailgo from "mailgo"
   export default {
     data() {
       return {

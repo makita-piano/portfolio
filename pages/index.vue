@@ -546,6 +546,7 @@ h2 {
         background: #FFF6E7;
     }
     22.5%  {
+        transform: rotate(180deg);
         background: #FFF6E7;
     }
     22.6% {

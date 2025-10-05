@@ -128,13 +128,13 @@
         title: "",
         item: [
           {id: 0, title: "保守・運用", img: "/i1.jpg",
-          text: "<h3>◆&nbsp仕事内容</h3><p>社員30名、アルバイト30名程度の事業会社で社内の保守・運用をしてきました。うちシステム部５名、キャリア４年。</p><h3>◆&nbspできること（システム）</h3><p>リモート環境構築／システム機器購入／社内サーバーの管理／Gmailなどの外部アプリやPC、社内システムの使い方レクチャー・不具合対処／Youtube Live配信</p><h3>◆&nbsp楽しみ</h3><p>「この作業、もっと楽にできないかな？」の解決を楽しみにしています。<br>その為には、社内ほか事業部の情報インプットが大事です。部分最適にならないように気を付けつつ、素早くシステム改善ができることが社内SEの強みだと考えています。</p>"
+          text: "<h3>◆&nbsp仕事内容</h3><p>人数が多くはない会社の社内SEをしています。兼Webエンジニア</p><h3>◆&nbspできること（システム）</h3><p>リモート環境構築／システム機器購入／社内サーバーの管理／Gmailなどの外部アプリやPC、社内システムの使い方レクチャー・不具合対処／Youtube Live配信</p><h3>◆&nbsp楽しみ</h3><p>「この作業、もっと楽にできないかな？」の解決を楽しみにしています。<br>その為には、社内ほか事業部の情報インプットが大事です。部分最適にならないように気を付けつつ、素早くシステム改善ができることが社内SEの強みだと考えています。</p>"
           },
           {id: 1, title: "カスタマー対応", img: "/i2.jpg",
           text: "<h3>◆&nbsp仕事内容</h3><p>電話応対・メール応対・来客応対を週10時間程度行っています。<br>主にWebページの使い方や不明点の説明、決済などによるシステムエラーの状況伺いなどをしますが、事業にまつわるものも対応可能な範囲のものは回答します。<br>問合せの原因がシステム不具合だった場合は、お客様への対応と共に、Webシステム(CakePHP , Ruby on Rails , Vue.js)の改修やMySQLなどのデータ操作、再発防止の対策をします。</p><h3>◆&nbsp楽しみ</h3><p>お客様の作業時間を減らすことを楽しみにしています。<br>サポートを受ける場合、大体、お客様は何かに困っています。そのお客様に対して、「その情報はここから閲覧できますよ」などのピンポイントな解決方法だけでなく、「ここに困るということは、こういう情報も足りてないのでは？」など＋αでお手伝いし、お客様の無駄な時間を減らすことに試行錯誤しています。</p>"
           },
           {id: 2, title: "社内システム改修", img: "/i3.jpg",
-          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a></p>"
+          text: "<h3>◆&nbsp仕事内容</h3><p>FileMakerを用いた業務改善を行っています。<a href='https://www.claris.com/ja/blog/2021/claris-engage-2020-nextgen-2' target='_blank' rel='noreferrer'>ClarisEngage2020登壇</a></p><p>ほかGASを用いた社内DXなど</p>"
           },
           {id: 3, title: "イベントスペース(停止中)", img: "/p1.png",
           text: "<p>ROLE：Design／Coding／Writing<br>URL：<a href='https://sv-rikugien.klavier.page/'>https://sv-rikugien.klavier.page/</p>"
@@ -144,6 +144,15 @@
           },
           {id: 5, title: "宿泊所", img: "/p3.png",
           text: "<p>ROLE：Design／Coding<br>URL：<a href='https://launion.page/'target='_blank' rel='noreferrer'>https://launion.page/</p>"
+          },
+          {id: 5, title: "医療事務サポート", img: "/p4.png",
+          text: "<p>ROLE：Design／Coding<br>URL：<a href='https://accueil-med.jp/'target='_blank' rel='noreferrer'>https://accueil-med.jp/</p>"
+          },
+          {id: 5, title: "動画配信", img: "/p5.png",
+          text: "<p>ROLE：Design／Coding<br>URL：<a href='https://fom-create.com/'target='_blank' rel='noreferrer'>https://fom-create.com/</p>"
+          },
+          {id: 5, title: "ピアノ曲事典", img: "/p6.png",
+          text: "<p>ROLE：Coding<br>URL：<a href='https://enc.piano.or.jp/'target='_blank' rel='noreferrer'>https://enc.piano.or.jp/</p>"
           },
         ],
       }
@@ -601,3 +610,4 @@ h2 {
 }
 
 </style>
+

@@ -69,7 +69,7 @@ export default {
     id: '-',
   },
 
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
+  // Build Configuration(https://go.nuxtjs.dev/config-build)
   build: {
   },
   sitemap: {
@@ -86,3 +86,4 @@ export default {
     }
  },
 }
+

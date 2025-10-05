@@ -145,7 +145,7 @@
           {id: 5, title: "宿泊所", img: "/p3.png",
           text: "<p>ROLE：Design／Coding<br>URL：<a href='https://launion.page/'target='_blank' rel='noreferrer'>https://launion.page/</p>"
           },
-          {id: 6, title: "医療事務サポート", img: "/p4.png",
+          {id: 6, title: "医療事務支援", img: "/p4.png",
           text: "<p>ROLE：Design／Coding<br>URL：<a href='https://accueil-med.jp/'target='_blank' rel='noreferrer'>https://accueil-med.jp/</p>"
           },
           {id: 7, title: "動画配信", img: "/p5.png",
@@ -610,5 +610,6 @@ h2 {
 }
 
 </style>
+
 
 

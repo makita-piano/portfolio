@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@nuxt/image": "^0.6.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/sitemap": "^2.4.0"
   }
 }

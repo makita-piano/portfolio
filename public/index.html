@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ポートフォリオ | マキタ ナオキ</title>
+<meta name="description" content="マキタナオキ（NAOKI MAKITA）のポートフォリオ。社内SE・Webエンジニア。">
+<meta property="og:site_name" content="マキタ ナオキ">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ポートフォリオ | マキタ ナオキ">
+<meta property="og:description" content="マキタナオキ（NAOKI MAKITA）のポートフォリオ。社内SE・Webエンジニア。">
+<meta property="og:url" content="https://portfolio.klavier.page/">
+<meta property="og:image" content="https://portfolio.klavier.page/naoki_makita_og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://portfolio.klavier.page/">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+<style>
+/* three.js の平面の鍵盤（88鍵）を背景に薄く敷き、内容は上に最小限の文字で重ねる。
+   色は ecc/design/css/tokens.css のロール名に合わせ、アクセントは今のサイトの薄紫を引き継ぐ。 */
+:root {
+  --accent: #6b4fd8;
+  --accent-soft: #f0e3ff;
+  --ink: #221f2b;
+  --muted: #6c6878;
+  --line: rgba(34, 31, 43, .12);
+  --surface: rgba(255, 255, 255, .62);
+  --stage: #f7f4fb;
+  --scrim: rgba(20, 16, 32, .5);
+  --glow-1: #e9dcff;
+  --glow-2: #dff3ff;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent: #b9a4ff; --accent-soft: #2a2140; --ink: #efecf5; --muted: #a7a2b5;
+    --line: rgba(239, 236, 245, .14); --surface: rgba(24, 20, 34, .55); --stage: #0e0c14;
+    --scrim: rgba(0, 0, 0, .6); --glow-1: #241a3d; --glow-2: #122536; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --accent: #b9a4ff; --accent-soft: #2a2140; --ink: #efecf5; --muted: #a7a2b5;
+  --line: rgba(239, 236, 245, .14); --surface: rgba(24, 20, 34, .55); --stage: #0e0c14;
+  --scrim: rgba(0, 0, 0, .6); --glow-1: #241a3d; --glow-2: #122536; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--stage); color: var(--ink);
+  font: 500 15px/1.8 'Noto Sans JP', sans-serif; letter-spacing: .04em;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+
+/* 背景: ぼかした色の塊を2つ敷き、その上に鍵盤のキャンバスを薄く重ねる（WebGLが使えなければ鍵盤なし） */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(40vmax 40vmax at 70% 40%, var(--glow-1) 0, transparent 70%),
+    radial-gradient(30vmax 30vmax at 20% 80%, var(--glow-2) 0, transparent 70%);
+}
+#stage { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; opacity: .09; }
+main { position: relative; z-index: 1; }
+
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+.en { font-family: 'Unbounded', sans-serif; font-weight: 300; letter-spacing: .08em; }
+
+/* ヒーロー: 前のサイトと同じく一面の薄紫に、名前を小さく中央に。鍵盤はこの下から出てくる */
+.hero {
+  position: relative; min-height: 100svh; display: grid; place-content: center; text-align: center;
+  background: var(--accent-soft);
+}
+.hero h1 {
+  margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 300;
+  font-size: clamp(20px, 2.6vw, 30px); letter-spacing: .6em; margin-right: -.6em; /* 字間の分だけ右にずれるのを戻す */
+}
+.hero p { margin: 18px 0 0; color: var(--muted); font-size: 11px; letter-spacing: .4em; margin-right: -.4em; text-transform: uppercase; }
+.scroll-hint {
+  position: absolute; left: 50%; bottom: 32px; translate: -50% 0; font-size: 10px; color: var(--muted); letter-spacing: .3em;
+  padding-bottom: 36px; background: linear-gradient(var(--muted), var(--muted)) 50% 100% / 1px 28px no-repeat;
+}
+
+/* セクション */
+section { padding: 18vh 0; }
+.label { display: flex; align-items: baseline; gap: 16px; margin: 0 0 40px; }
+.label h2 { margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: clamp(28px, 4vw, 44px); letter-spacing: 0; }
+.label span { color: var(--muted); font-size: 12px; }
+
+/* 作品: すりガラスのカード。押すと dialog で大きく見る */
+.works { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.work {
+  all: unset; cursor: pointer; display: block; border-radius: 24px; overflow: hidden;
+  background: var(--surface); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1), opacity .6s, filter 1s;
+}
+.work:hover { transform: translateY(-4px); }
+.work:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.work img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: top; }
+.work div { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 18px 16px; }
+.work b { font-weight: 500; }
+.work small { color: var(--muted); font-size: 11px; letter-spacing: .1em; }
+
+/* 経歴: 1行ずつ */
+.career { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.career li { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.career small { display: block; color: var(--muted); font-size: 12px; }
+.career time { color: var(--muted); font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 13px; }
+
+/* スキル: 名前と3段階のバー。表示されたら左から順に塗る */
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0 40px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.skills li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.lv { display: flex; gap: 4px; flex: none; }
+.lv b { width: 18px; height: 3px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+.lv b::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+.lv b:nth-child(2)::after { transition-delay: .15s; }
+.lv b:nth-child(3)::after { transition-delay: .3s; }
+.is-visible .lv b:nth-child(1)::after,
+.is-visible .lv[style*="--lv:2"] b:nth-child(2)::after,
+.is-visible .lv[style*="--lv:3"] b:nth-child(-n+3)::after { transform: none; transition-delay: calc(var(--delay, 0s) + .4s + var(--i, 0s)); }
+.lv b:nth-child(2) { --i: .15s; } .lv b:nth-child(3) { --i: .3s; }
+
+/* 連絡: ヒーローと同じく小さく控えめに */
+.contact { padding-bottom: 24vh; }
+.contact .mail { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin: 0; }
+.contact .mail span { color: var(--muted); font-size: 10px; letter-spacing: .3em; transition: color .3s; }
+.contact .mail span.is-done { color: var(--accent); }
+.contact button {
+  all: unset; cursor: pointer; font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 15px; letter-spacing: .15em;
+  text-decoration: none; padding-bottom: 4px;
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1px no-repeat, linear-gradient(var(--line), var(--line)) 0 100% / 100% 1px no-repeat;
+  transition: background-size .6s cubic-bezier(.16, 1, .3, 1);
+}
+.contact button:hover, .contact button:focus-visible { background-size: 100% 1px, 100% 1px; outline: none; }
+footer { padding: 32px 0; color: var(--muted); font-size: 11px; }
+
+/* 作品の詳細 */
+dialog {
+  width: min(720px, 100% - 32px); max-height: 88svh; padding: 0; border: 0; border-radius: 24px;
+  background: var(--stage); color: var(--ink); overflow: auto;
+}
+dialog::backdrop { background: var(--scrim); backdrop-filter: blur(6px); }
+dialog img { display: block; width: 100%; }
+dialog .body { padding: 24px 28px 28px; }
+dialog h3 { margin: 0 0 8px; font-weight: 500; }
+dialog p { margin: 0; color: var(--muted); }
+dialog .close { position: sticky; top: 12px; float: right; margin: 12px 12px 0 0; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--surface); color: var(--ink); font-size: 20px; cursor: pointer; backdrop-filter: blur(12px); }
+
+/* 出現: showcase.css の .reveal を少し弱めて使う */
+.reveal { opacity: 0; transform: translateY(40px); filter: blur(8px);
+  transition: opacity .6s cubic-bezier(.16, 1, .3, 1), filter 1s cubic-bezier(.16, 1, .3, 1), transform 1.2s cubic-bezier(.1, 1, .3, 1);
+  transition-delay: var(--delay, 0s); }
+.reveal.is-visible { opacity: 1; transform: none; filter: none; }
+.work.reveal.is-visible:hover { transform: translateY(-4px); transition-delay: 0s; }
+
+@media (max-width: 600px) {
+  .career li { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  .lv b::after { transition: none; }
+  .lv[style*="--lv:1"] b:nth-child(1)::after, .lv[style*="--lv:2"] b:nth-child(-n+2)::after, .lv[style*="--lv:3"] b::after { transform: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="stage" aria-hidden="true"></canvas>
+
+<main>
+  <header class="hero">
+    <h1 class="reveal">NAOKI MAKITA</h1>
+    <p class="reveal" style="--delay:.15s">In-house System Engineer</p>
+    <span class="scroll-hint en">SCROLL</span>
+  </header>
+
+
+  <section id="works" class="wrap">
+    <div class="label reveal"><h2>Works</h2><span>これまでの仕事</span></div>
+    <div class="works" id="works-list"></div>
+  </section>
+
+  <section id="career" class="wrap">
+    <div class="label reveal"><h2>Career</h2><span>経歴</span></div>
+    <!-- 会社名は書かない。ずっと少人数の会社 -->
+    <ol class="career">
+      <li class="reveal"><time>2017 — 2021</time><span>Webエンジニア<small>ClarisEngage 2020 登壇</small></span></li>
+      <li class="reveal" style="--delay:.08s"><time>2021 — 2025</time><span>一人情シス</span></li>
+      <li class="reveal" style="--delay:.16s"><time>2025 — 2026</time><span>情シス</span></li>
+      <li class="reveal" style="--delay:.24s"><time>2027 —</time><span>情シス</span></li>
+    </ol>
+  </section>
+
+  <section id="skills" class="wrap">
+    <div class="label reveal"><h2>Skills</h2></div>
+    <!-- 3段階は前のサイトの円の塗り具合（240° / 170° / 110°）を引き継いだもの -->
+    <ul class="skills">
+      <li class="reveal" style="--delay:0.00s"><span>FileMaker</span><i class="lv" style="--lv:3" role="img" aria-label="3段階中3"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.08s"><span>情シス</span><i class="lv" style="--lv:3" role="img" aria-label="3段階中3"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.16s"><span>Ruby on Rails</span><i class="lv" style="--lv:2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.00s"><span>Nuxt.js</span><i class="lv" style="--lv:2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.08s"><span>HTML / CSS</span><i class="lv" style="--lv:2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.16s"><span>Google Apps Script</span><i class="lv" style="--lv:2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.00s"><span>ISMS</span><i class="lv" style="--lv:2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.08s"><span>SQL</span><i class="lv" style="--lv:1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.16s"><span>GCP</span><i class="lv" style="--lv:1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
+      <li class="reveal" style="--delay:0.00s"><span>ライブ配信</span><i class="lv" style="--lv:1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
+    </ul>
+  </section>
+
+  <section class="contact wrap">
+    <div class="label reveal"><h2>Contact</h2></div>
+    <p class="reveal mail"><button id="mail" type="button" data-mail="contact@klavier.page">contact@klavier.page</button><span id="mail-state" class="en" role="status" aria-live="polite">CLICK TO COPY</span></p>
+  </section>
+
+  <footer class="wrap en">© NAOKI MAKITA</footer>
+</main>
+
+<dialog id="detail" aria-labelledby="detail-title">
+  <button class="close" type="button" aria-label="閉じる" onclick="this.closest('dialog').close()">×</button>
+  <img id="detail-img" alt="">
+  <div class="body"><h3 id="detail-title"></h3><p id="detail-text"></p></div>
+</dialog>
+
+<script>
+// 作品一覧
+const IMG = 'img/';
+const WORKS = [
+  { title: '社内システム改修', tag: 'In-house', img: 'i3.jpg', text: 'FileMaker・GASによる業務改善。ClarisEngage 2020 登壇。' },
+  { title: '保守・運用', tag: 'In-house', img: 'i1.jpg', text: 'リモート環境構築、機器・サーバー管理、社内サポート、YouTube Live配信。' },
+  { title: 'カスタマー対応', tag: 'In-house', img: 'i2.jpg', text: '問い合わせ対応から、Webシステムの改修・再発防止まで。' },
+  { title: '音楽教室', tag: 'Coding', img: 'p2.jpg', url: 'https://cjmtokyo.com/' },
+  { title: '宿泊所', tag: 'Design / Coding', img: 'p3.jpg', url: 'https://launion.page/' },
+  { title: '医療事務支援', tag: 'Design / Coding', img: 'p4.jpg', url: 'https://accueil-med.jp/' },
+  { title: '動画配信', tag: 'Design / Coding', img: 'p5.jpg', url: 'https://fom-create.com/' },
+  { title: 'ピアノ曲事典', tag: 'Coding', img: 'p6.jpg', url: 'https://enc.piano.or.jp/' },
+];
+
+const list = document.getElementById('works-list');
+const dlg = document.getElementById('detail');
+WORKS.forEach((w, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'work reveal';
+  b.style.setProperty('--delay', (i % 3) * .08 + 's');
+  b.innerHTML = '<img alt="" loading="lazy"><div><b></b><small></small></div>';
+  b.querySelector('img').src = IMG + w.img;
+  b.querySelector('b').textContent = w.title;
+  b.querySelector('small').textContent = w.tag;
+  b.addEventListener('click', () => {
+    const img = document.getElementById('detail-img');
+    img.src = IMG + w.img; img.alt = w.title;
+    document.getElementById('detail-title').textContent = w.title;
+    const p = document.getElementById('detail-text');
+    p.textContent = w.text || w.tag;
+    if (w.url) {
+      const a = document.createElement('a');
+      a.href = w.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = w.url.replace(/^https?:\/\/|\/$/g, '');
+      p.append(document.createElement('br'), a);
+    }
+    dlg.showModal();
+  });
+  list.append(b);
+});
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+// メールアドレスは押すとコピー（mailto はメールアプリの設定がないと動かないため）
+const mailBtn = document.getElementById('mail'), mailState = document.getElementById('mail-state');
+mailBtn.addEventListener('click', async () => {
+  const addr = mailBtn.dataset.mail;
+  try { await navigator.clipboard.writeText(addr); }
+  catch {
+    const r = document.createRange(); r.selectNodeContents(mailBtn);
+    getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy');
+  }
+  mailState.textContent = 'COPIED'; mailState.classList.add('is-done');
+  clearTimeout(mailBtn._t);
+  mailBtn._t = setTimeout(() => { mailState.textContent = 'CLICK TO COPY'; mailState.classList.remove('is-done'); }, 2000);
+});
+
+// 出現（showcase.css の最小JS）
+(() => {
+  const els = document.querySelectorAll('.reveal');
+  const show = el => el.classList.add('is-visible');
+  if (!('IntersectionObserver' in window)) return els.forEach(show);
+  const io = new IntersectionObserver((es, o) => es.forEach(e => {
+    if (e.isIntersecting) { show(e.target); o.unobserve(e.target); }
+  }), { threshold: .2 });
+  els.forEach(el => io.observe(el));
+})();
+</script>
+
+<script type="module">
+import * as THREE from './vendor/three.module.min.js';
+
+// 背景の鍵盤。操作はなく、スクロールに合わせてゆっくり横へ流れるだけ
+const canvas = document.getElementById('stage');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// WebGLが使えない環境では、ここで止まって CSS のグラデーションのまま
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+// 真上から見た平面の鍵盤。遠近をつけない正投影カメラで、図のようにすっきり見せる
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 10);
+camera.position.z = 5;
+
+const W = 1, GAP = .07, LEN = 6;       // 白鍵の幅・すき間（背景が細い線に見える）・長さ
+const BW = .58, BLEN = 3.8;            // 黒鍵
+const BLACK = [1, 3, 6, 8, 10];        // オクターブ内で黒鍵になる半音
+
+// 本物と同じ88鍵（A0〜C8）。鍵盤の上端を y=0 にそろえる
+const board = new THREE.Group();
+scene.add(board);
+const whiteMat = new THREE.MeshBasicMaterial({ color: '#ffffff' });
+const blackMat = new THREE.MeshBasicMaterial({ color: '#221f2b' });
+const whiteGeo = new THREE.PlaneGeometry(W - GAP, LEN), blackGeo = new THREE.PlaneGeometry(BW, BLEN);
+let wi = 0, middleC = 0;
+for (let midi = 21; midi <= 108; midi++) {
+  const black = BLACK.includes(midi % 12);
+  const mesh = new THREE.Mesh(black ? blackGeo : whiteGeo, black ? blackMat : whiteMat);
+  mesh.position.set(black ? (wi - .5) * W : wi * W, black ? -BLEN / 2 : -LEN / 2, black ? .02 : 0);
+  board.add(mesh);
+  if (midi === 60) middleC = mesh.position.x;
+  if (!black) wi++;
+}
+
+let viewW = 1, viewH = 1;
+function resize() {
+  renderer.setSize(innerWidth, innerHeight, false);
+  viewW = innerWidth < 700 ? 16 : 36;   // 画面の横幅に入る白鍵の本数
+  viewH = viewW * innerHeight / innerWidth;
+  Object.assign(camera, { left: -viewW / 2, right: viewW / 2, top: viewH / 2, bottom: -viewH / 2 });
+  camera.updateProjectionMatrix();
+  // 画面の下側に置く（鍵盤の手前側は画面の外へ少し切れる）
+  board.position.y = -viewH / 2 + LEN * .75;
+  render();
+}
+
+let pageT = 0;
+function render() {
+  board.position.x = -(middleC + THREE.MathUtils.lerp(-8, 16, pageT));
+  renderer.render(scene, camera);
+}
+let queued = false;
+addEventListener('scroll', () => {
+  pageT = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  if (reduce || queued) return;
+  queued = true;
+  requestAnimationFrame(() => { queued = false; render(); });
+}, { passive: true });
+addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>

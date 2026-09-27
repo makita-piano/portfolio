@@ -2,5 +2,9 @@
   // 静的ファイルだけを Cloudflare Workers で配信する（スクリプトなし）
   "name": "portfolio",
   "compatibility_date": "2026-09-25",
-  "assets": { "directory": "./public" }
+  "assets": { "directory": "./public" },
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "portfolio.klavier.page", "custom_domain": true }
+  ]
 }

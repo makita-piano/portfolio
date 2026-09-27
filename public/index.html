@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
 <style>
-/* three.js の平面の鍵盤（88鍵）を背景に薄く敷き、内容は上に最小限の文字で重ねる。
+/* 平面の鍵盤を背景に薄く敷き、内容は上に最小限の文字で重ねる。
    色は ecc/design/css/tokens.css のロール名に合わせ、アクセントは今のサイトの薄紫を引き継ぐ。 */
 :root {
   --accent: #6b4fd8;
@@ -55,14 +55,21 @@ body {
 }
 a { color: inherit; }
 
-/* 背景: ぼかした色の塊を2つ敷き、その上に鍵盤のキャンバスを薄く重ねる（WebGLが使えなければ鍵盤なし） */
+/* 背景: ぼかした色の塊を2つ敷き、その上に鍵盤を薄く重ねる */
 body::before {
   content: ""; position: fixed; inset: 0; z-index: 0;
   background:
     radial-gradient(40vmax 40vmax at 70% 40%, var(--glow-1) 0, transparent 70%),
     radial-gradient(30vmax 30vmax at 20% 80%, var(--glow-2) 0, transparent 70%);
 }
-#stage { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; opacity: .09; }
+/* 背景の鍵盤: 1オクターブの SVG を横に繰り返し、画面の下側に薄く敷く。--kw は白鍵1本の幅 */
+:root { --kw: calc(100vw / 36); }
+@media (max-width: 700px) { :root { --kw: calc(100vw / 16); } }
+.keys {
+  position: fixed; left: 0; right: 0; bottom: calc(var(--kw) * -1.5); height: calc(var(--kw) * 6); z-index: 0;
+  opacity: .09; pointer-events: none;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 120' preserveAspectRatio='none'><g fill='%23fff'><rect x='0.7' width='18.6' height='120'/><rect x='20.7' width='18.6' height='120'/><rect x='40.7' width='18.6' height='120'/><rect x='60.7' width='18.6' height='120'/><rect x='80.7' width='18.6' height='120'/><rect x='100.7' width='18.6' height='120'/><rect x='120.7' width='18.6' height='120'/></g><g fill='%23221f2b'><rect x='14.2' width='11.6' height='76'/><rect x='34.2' width='11.6' height='76'/><rect x='74.2' width='11.6' height='76'/><rect x='94.2' width='11.6' height='76'/><rect x='114.2' width='11.6' height='76'/></g></svg>") 0 0 / calc(var(--kw) * 7) 100% repeat-x;
+}
 main { position: relative; z-index: 1; }
 
 .wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
@@ -169,7 +176,7 @@ dialog .close { position: sticky; top: 12px; float: right; margin: 12px 12px 0 0
 </style>
 </head>
 <body>
-<canvas id="stage" aria-hidden="true"></canvas>
+<div class="keys" aria-hidden="true"></div>
 
 <main>
   <header class="hero">
@@ -295,68 +302,22 @@ mailBtn.addEventListener('click', async () => {
 })();
 </script>
 
-<script type="module">
-import * as THREE from './vendor/three.module.min.js';
-
-// 背景の鍵盤。操作はなく、スクロールに合わせてゆっくり横へ流れるだけ
-const canvas = document.getElementById('stage');
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// WebGLが使えない環境では、ここで止まって CSS のグラデーションのまま
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-
-// 真上から見た平面の鍵盤。遠近をつけない正投影カメラで、図のようにすっきり見せる
-const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 10);
-camera.position.z = 5;
-
-const W = 1, GAP = .07, LEN = 6;       // 白鍵の幅・すき間（背景が細い線に見える）・長さ
-const BW = .58, BLEN = 3.8;            // 黒鍵
-const BLACK = [1, 3, 6, 8, 10];        // オクターブ内で黒鍵になる半音
-
-// 本物と同じ88鍵（A0〜C8）。鍵盤の上端を y=0 にそろえる
-const board = new THREE.Group();
-scene.add(board);
-const whiteMat = new THREE.MeshBasicMaterial({ color: '#ffffff' });
-const blackMat = new THREE.MeshBasicMaterial({ color: '#221f2b' });
-const whiteGeo = new THREE.PlaneGeometry(W - GAP, LEN), blackGeo = new THREE.PlaneGeometry(BW, BLEN);
-let wi = 0, middleC = 0;
-for (let midi = 21; midi <= 108; midi++) {
-  const black = BLACK.includes(midi % 12);
-  const mesh = new THREE.Mesh(black ? blackGeo : whiteGeo, black ? blackMat : whiteMat);
-  mesh.position.set(black ? (wi - .5) * W : wi * W, black ? -BLEN / 2 : -LEN / 2, black ? .02 : 0);
-  board.add(mesh);
-  if (midi === 60) middleC = mesh.position.x;
-  if (!black) wi++;
-}
-
-let viewW = 1, viewH = 1;
-function resize() {
-  renderer.setSize(innerWidth, innerHeight, false);
-  viewW = innerWidth < 700 ? 16 : 36;   // 画面の横幅に入る白鍵の本数
-  viewH = viewW * innerHeight / innerWidth;
-  Object.assign(camera, { left: -viewW / 2, right: viewW / 2, top: viewH / 2, bottom: -viewH / 2 });
-  camera.updateProjectionMatrix();
-  // 画面の下側に置く（鍵盤の手前側は画面の外へ少し切れる）
-  board.position.y = -viewH / 2 + LEN * .75;
-  render();
-}
-
-let pageT = 0;
-function render() {
-  board.position.x = -(middleC + THREE.MathUtils.lerp(-8, 16, pageT));
-  renderer.render(scene, camera);
-}
-let queued = false;
-addEventListener('scroll', () => {
-  pageT = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
-  if (reduce || queued) return;
-  queued = true;
-  requestAnimationFrame(() => { queued = false; render(); });
-}, { passive: true });
-addEventListener('resize', resize);
-resize();
+<script>
+// 背景の鍵盤を、ページを下るにつれてゆっくり横へ流す
+(() => {
+  const keys = document.querySelector('.keys');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let queued = false;
+  addEventListener('scroll', () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      const t = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      keys.style.backgroundPositionX = `calc(var(--kw) * ${(-t * 24).toFixed(3)})`;
+    });
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>

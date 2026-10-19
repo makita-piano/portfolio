@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="dark">
 <title>ポートフォリオ | マキタ ナオキ</title>
 <meta name="description" content="マキタナオキ（NAOKI MAKITA）のポートフォリオ。社内SE・Webエンジニア。">
 <meta property="og:site_name" content="マキタ ナオキ">
@@ -17,268 +17,329 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ecc/design/RULES.md 原則4（AIっぽさを消す）を当てた版。試作は ecc/portfolio/prototype/calm.html
-   目立たせるのはヒーロー下端の鍵盤。portfolio は見栄え優先なので、ピアノに結びついた動き（開幕のグリッサンド）と、押す操作に応える動きは入れる。
-   ダークモードは作らない。暗い背景に紫を置くと毒々しくなるので、OS がダークでもこの配色で見せる。  */
+/* RPGの会話画面。試作は ecc/portfolio/prototype/rpg.html。参考: ユーザー指定の画像（紺色のセリフ窓＋名前の札＋右に縦に並ぶ選択肢＋金の縁取り）。
+   つくり: 背景は暗い場面 → 内容の窓（紺） → 下にセリフ窓、右に選択肢（= ナビ）。
+   色（ロール）: stage 背景 / navy・navy-deep 窓 / gold 縁・強調 / ink 文字 / muted 補助文字。強調は金の1色。 */
 :root {
-  --accent: #6b4fd8;
-  --accent-soft: #f0e3ff;
-  --ink: #221f2b;
-  --muted: #6c6878;
-  --line: rgba(34, 31, 43, .12);
-  --stage: #fcfbfd;
-  --scrim: rgba(20, 16, 32, .5);
-  --key-white: #fff;
-  --key-black: #000;
-  color-scheme: light;
+  --stage-top: #2b3547;
+  --stage-bottom: #0d111c;
+  --navy: #243a8c;
+  --navy-deep: #111c4f;
+  --gold: #e3c06a;
+  --ink: #ffffff;
+  --muted: #b9c2ee;
+  --scrim: rgba(5, 8, 20, .6);
+  --pixel: 'DotGothic16', 'Noto Sans JP', sans-serif;
+  color-scheme: dark;
 }
-
 * { box-sizing: border-box; }
+html { min-height: 100%; background: var(--stage-bottom); }
 body {
-  margin: 0; background: var(--stage); color: var(--ink);
-  font: 400 15px/1.8 'Noto Sans JP', sans-serif; letter-spacing: .04em;
-  -webkit-font-smoothing: antialiased;
+  margin: 0; min-height: 100vh; color: var(--ink);
+  background: radial-gradient(ellipse at 50% 20%, var(--stage-top), var(--stage-bottom) 75%);
+  font: 400 15px/1.8 'Noto Sans JP', system-ui, sans-serif;
+  display: grid; place-items: center; padding: 24px 16px;
 }
-a { color: inherit; }
-.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+button { font: inherit; color: inherit; }
 
-/* ヒーロー: 一面の薄紫に小さな名前。下端に平面の鍵盤を敷く（このページで唯一目立たせる所） */
-.hero {
-  position: relative; min-height: 100svh; display: grid; place-content: center; text-align: center;
-  background: var(--accent-soft); overflow: hidden;
-  --kw: calc(100vw / 36); /* 白鍵1本の幅 */
+/* 窓: 紺のグラデーション＋金の二重縁 */
+.window {
+  background: linear-gradient(180deg, var(--navy), var(--navy-deep));
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px var(--gold), 0 0 0 4px var(--navy-deep), 0 0 0 5px rgba(227, 192, 106, .55), 0 10px 30px rgba(0, 0, 0, .45);
+  padding: 28px 32px;
 }
-@media (max-width: 700px) { .hero { --kw: calc(100vw / 16); } }
-.hero h1 {
-  margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 300;
-  font-size: clamp(20px, 2.6vw, 30px); letter-spacing: .6em; margin-right: -.6em; /* 字間の分だけ右にずれるのを戻す */
+.game { width: min(860px, 100%); display: grid; gap: 28px; }
+
+/* 上: 名前とレベル */
+.head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 32px; }
+.head h1 { margin: 0; font: 400 26px/1.2 var(--pixel); letter-spacing: .08em; }
+.head p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+.lv { font-family: var(--pixel); font-size: 15px; color: var(--gold); }
+.lv b { font-size: 26px; font-weight: 400; margin-left: 4px; }
+
+/* 内容の窓 */
+.panel { min-height: 340px; }
+.panel[hidden] { display: none; }
+.panel h2 { margin: 0 0 20px; font: 400 18px/1.4 var(--pixel); color: var(--gold); }
+
+/* つよさ */
+.skills { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px 40px; grid-template-columns: repeat(2, 1fr); }
+.skills li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 10px 0; }
+.skills span { font-size: 14px; }
+.bar { display: flex; gap: 3px; flex: none; }
+.bar b { width: 22px; height: 10px; border-radius: 2px; background: rgba(0, 0, 0, .35); }
+.bar b.on { background: var(--gold); transform-origin: left; }
+.is-in .bar b.on { animation: fill .5s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--i) * 90ms + var(--d, 0ms)); }
+@keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.legend { margin: 20px 0 0; color: var(--muted); font-size: 12px; }
+
+/* けいれき */
+.log { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.log li { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 14px 20px; background: rgba(0, 0, 0, .28); border-radius: 6px; align-items: baseline; }
+.log li.now { background: rgba(227, 192, 106, .18); }
+.log time { font-family: var(--pixel); color: var(--muted); font-size: 14px; }
+.log small { display: block; color: var(--muted); font-size: 12px; }
+
+/* さくひん */
+.items { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.item { all: unset; box-sizing: border-box; cursor: pointer; display: block; padding: 8px 8px 12px; border-radius: 6px; }
+.item:hover, .item:focus-visible { background: rgba(255, 255, 255, .12); }
+.item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.item img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: top; border-radius: 4px; background: var(--navy-deep); }
+.item b { display: block; margin-top: 8px; font-weight: 500; font-size: 14px; }
+.item small { color: var(--muted); font-size: 12px; }
+
+/* れんらく */
+.mail { all: unset; box-sizing: border-box; cursor: pointer; display: inline-block; font: 400 20px/1.4 var(--pixel); padding: 14px 24px; background: var(--gold); color: var(--navy-deep); border-radius: 6px; }
+.mail:hover { filter: brightness(1.08); }
+.mail:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.mail-state { display: block; margin-top: 12px; color: var(--muted); font-size: 13px; }
+
+/* 下: セリフ窓（名前の札つき）と、右に縦に並ぶ選択肢 */
+.talk { display: grid; gap: 20px; justify-items: end; }
+.choices { display: grid; gap: 10px; width: min(260px, 100%); }
+.cmd {
+  all: unset; box-sizing: border-box; cursor: pointer; display: block; position: relative;
+  font-family: var(--pixel); font-size: 17px; text-align: center; padding: 8px 16px;
+  background: linear-gradient(180deg, var(--navy), var(--navy-deep)); border-radius: 6px;
+  box-shadow: 0 0 0 2px var(--gold), 0 0 0 3px var(--navy-deep), 0 4px 12px rgba(0, 0, 0, .4);
 }
-.hero p { margin: 14px 0 0; color: var(--muted); font-size: 13px; letter-spacing: .08em; }
+.cmd:hover { filter: brightness(1.25); }
+.cmd[aria-selected="true"] { background: var(--gold); color: var(--navy-deep); }
+.cmd:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
 
-/* 開幕: 鍵盤が左から1鍵ずつ現れ（グリッサンド）、弾き終わりに名前と肩書きが浮かぶ。
-   steps() の数は画面に見える白鍵の数に合わせる */
-.keys { animation: gliss 1.1s steps(36, end) .2s both; }
-@media (max-width: 700px) { .keys { animation-timing-function: steps(16, end); } }
-@keyframes gliss { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-.hero h1 { animation: name-in 1.6s cubic-bezier(.16, 1, .3, 1) 1.2s both; }
-.hero p { animation: fade-in 1.2s cubic-bezier(.16, 1, .3, 1) 1.6s both; }
-@keyframes name-in { from { opacity: 0; filter: blur(10px); letter-spacing: 1em; margin-right: -1em; } }
-@keyframes fade-in { from { opacity: 0; filter: blur(6px); } }
-
-/* 鍵盤: 1オクターブの形をマスクにして横に繰り返す。
-   SVG の中では CSS 変数の色を使えないので、白鍵と黒鍵を別の層にして background で色を付ける */
-.keys { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--kw) * 4.2); pointer-events: none; }
-.keys::before, .keys::after {
-  content: ""; position: absolute; inset: 0;
-  -webkit-mask: var(--m) var(--x, 0px) 0 / calc(var(--kw) * 7) 100% repeat-x;
-          mask: var(--m) var(--x, 0px) 0 / calc(var(--kw) * 7) 100% repeat-x;
+.message { width: 100%; position: relative; padding: 30px 32px 22px; min-height: 96px; }
+.name {
+  position: absolute; left: 20px; top: -16px; font: 400 15px/1 var(--pixel); color: var(--navy-deep);
+  background: var(--gold); padding: 7px 18px; border-radius: 6px;
 }
-.keys::before {
-  background: var(--key-white);
-  --m: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 120' preserveAspectRatio='none'><rect x='0.7' width='18.6' height='120'/><rect x='20.7' width='18.6' height='120'/><rect x='40.7' width='18.6' height='120'/><rect x='60.7' width='18.6' height='120'/><rect x='80.7' width='18.6' height='120'/><rect x='100.7' width='18.6' height='120'/><rect x='120.7' width='18.6' height='120'/></svg>");
-}
-.keys::after {
-  background: var(--key-black);
-  --m: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 120' preserveAspectRatio='none'><rect x='14.2' width='11.6' height='76'/><rect x='34.2' width='11.6' height='76'/><rect x='74.2' width='11.6' height='76'/><rect x='94.2' width='11.6' height='76'/><rect x='114.2' width='11.6' height='76'/></svg>");
-}
-
-/* セクション: 見出しは英語1つだけ */
-section { padding: 16vh 0 0; }
-h2 { margin: 0 0 40px; font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: clamp(26px, 3.6vw, 40px); letter-spacing: 0; }
-
-/* 作品: 枠・影・すりガラスなし。画像そのものを見せ、名前と種類を下に添える */
-.works { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 40px 24px; }
-.work { all: unset; cursor: pointer; display: block; }
-/* 画像は枠の中で少しだけ寄る（押す前の手応え） */
-.work .frame { display: block; overflow: hidden; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
-.work img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: top; transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
-.work:hover img, .work:focus-visible img { transform: scale(1.045); }
-.work div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 12px; }
-.work b { font-weight: 500; }
-.work small { color: var(--muted); font-size: 12px; }
-.work:hover b { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.work:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 6px; }
-
-/* 経歴: 1行ずつ */
-.career { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.career li { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
-.career small { display: block; color: var(--muted); font-size: 12px; }
-.career time { color: var(--muted); font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 13px; }
-
-/* スキル: 名前と3段階のバー（動かさない） */
-.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0 40px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-.skills li { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.lv { display: flex; gap: 4px; flex: none; }
-.lv b { width: 18px; height: 3px; border-radius: 2px; background: var(--line); }
-.lv[data-lv="1"] b:nth-child(-n+1),
-.lv[data-lv="2"] b:nth-child(-n+2),
-.lv[data-lv="3"] b { background: var(--accent); }
-
-/* 連絡: 押すとコピー。結果は同じ言葉で返す */
-.contact { padding-bottom: 20vh; }
-.mail { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin: 0; }
-.mail button {
-  all: unset; cursor: pointer; font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 15px; letter-spacing: .1em;
-  padding-bottom: 4px; border-bottom: 1px solid var(--line);
-}
-.mail button:hover { border-color: var(--accent); }
-.mail button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.mail span { color: var(--muted); font-size: 12px; }
-.mail span.is-done { color: var(--accent); }
-footer { padding: 32px 0; color: var(--muted); font-size: 12px; font-family: 'Unbounded', sans-serif; font-weight: 300; }
+.say { margin: 0; font: 400 17px/1.8 var(--pixel); }
+.say::after { content: '▼'; margin-left: 8px; font-size: 11px; color: var(--gold); animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
 
 /* 作品の詳細 */
-dialog {
-  width: min(720px, 100% - 32px); max-height: 88svh; padding: 0; border: 0; border-radius: 12px;
-  background: var(--stage); color: var(--ink); overflow: auto;
-}
-dialog::backdrop { background: var(--scrim); backdrop-filter: blur(8px); }
-/* 開くと、押した作品が手前に出てくるように */
-dialog[open] { animation: pop .5s cubic-bezier(.16, 1, .3, 1); }
-dialog[open]::backdrop { animation: fade-in .4s ease; }
-@keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.97); } }
-dialog img { display: block; width: 100%; }
-dialog .body { padding: 24px 28px 28px; }
-dialog h3 { margin: 0 0 8px; font-weight: 500; }
-dialog p { margin: 0; color: var(--muted); }
-dialog .close { position: sticky; z-index: 1; top: 12px; float: right; margin: 12px 12px -52px 0; /* 下の余白を打ち消して画像の上に重ねる */ width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--stage); color: var(--ink); font-size: 20px; cursor: pointer; box-shadow: 0 0 0 1px var(--line); }
+dialog { border: 0; padding: 0; border-radius: 10px; width: min(560px, calc(100% - 32px)); color: var(--ink); overflow: visible;
+  background: linear-gradient(180deg, var(--navy), var(--navy-deep));
+  box-shadow: 0 0 0 2px var(--gold), 0 0 0 4px var(--navy-deep), 0 0 0 5px rgba(227, 192, 106, .55); }
+dialog::backdrop { background: var(--scrim); backdrop-filter: blur(6px); }
+dialog img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: top; border-radius: 10px 10px 0 0; }
+dialog .body { padding: 20px 28px 28px; }
+dialog h3 { margin: 0 0 8px; font: 400 18px/1.4 var(--pixel); color: var(--gold); }
+dialog p { margin: 0 0 16px; font-size: 14px; }
+dialog a { color: var(--gold); }
+dialog .close { all: unset; cursor: pointer; font-family: var(--pixel); font-size: 14px; padding: 6px 14px; border-radius: 6px; background: rgba(255, 255, 255, .12); }
+dialog .close:hover { background: rgba(255, 255, 255, .22); }
+dialog .close:focus-visible { outline: 2px solid var(--gold); }
 
-@media (max-width: 600px) {
-  .career li { grid-template-columns: 1fr; gap: 2px; }
+@media (max-width: 680px) {
+  .window { padding: 22px 20px; }
+  .head { padding: 16px 20px; }
+  .skills { grid-template-columns: 1fr; }
+  .log li { grid-template-columns: 1fr; gap: 2px; }
+  .panel { min-height: 0; }
+  .choices { width: 100%; }
+  .message { padding: 28px 20px 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .keys, .hero h1, .hero p, dialog[open], dialog[open]::backdrop { animation: none; }
-  .work img { transition: none; }
+  .is-in .bar b.on { animation: none; }
+  .say::after { animation: none; }
 }
 </style>
 </head>
 <body>
-<main>
-  <header class="hero">
-    <h1>NAOKI MAKITA</h1>
-    <p>In-house System Engineer</p>
-    <div class="keys" aria-hidden="true"></div>
+<div class="game">
+
+  <header class="window head">
+    <div>
+      <h1>NAOKI MAKITA</h1>
+      <p>In-house System Engineer</p>
+    </div>
+    <div class="lv">Lv.<b id="lv">9</b></div>
   </header>
 
-  <section id="works" class="wrap">
-    <h2>Works</h2>
-    <div class="works" id="works-list"></div>
-  </section>
+  <main class="window">
+    <section class="panel is-in" id="p-skills" role="tabpanel" aria-labelledby="t-skills">
+      <h2>つよさ</h2>
+      <ul class="skills" id="skills"></ul>
+      <p class="legend">ゲージ3つが最大。</p>
+    </section>
 
-  <section id="career" class="wrap">
-    <h2>Career</h2>
-    <!-- 会社名は書かない。ずっと少人数の会社 -->
-    <ol class="career">
-      <li><time>2017 — 2021</time><span>Webエンジニア<small>ClarisEngage 2020 登壇</small></span></li>
-      <li><time>2021 — 2025</time><span>一人情シス</span></li>
-      <li><time>2025 — 2026</time><span>情シス</span></li>
-      <li><time>2027 —</time><span>情シス</span></li>
-    </ol>
-  </section>
+    <section class="panel" id="p-career" role="tabpanel" aria-labelledby="t-career" hidden>
+      <h2>けいれき</h2>
+      <!-- 会社名は書かない -->
+      <ol class="log">
+        <li><time>2017 — 2021</time><span>Webエンジニア<small>ClarisEngage 2020 登壇</small></span></li>
+        <li><time>2021 — 2025</time><span>一人情シス</span></li>
+        <li><time>2025 — 2026</time><span>情シス</span></li>
+        <li class="now"><time>2027 —</time><span>情シス</span></li>
+      </ol>
+    </section>
 
-  <section id="skills" class="wrap">
-    <h2>Skills</h2>
-    <ul class="skills">
-      <li><span>FileMaker</span><i class="lv" data-lv="3" role="img" aria-label="3段階中3"><b></b><b></b><b></b></i></li>
-      <li><span>情シス</span><i class="lv" data-lv="3" role="img" aria-label="3段階中3"><b></b><b></b><b></b></i></li>
-      <li><span>Ruby on Rails</span><i class="lv" data-lv="2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
-      <li><span>Nuxt.js</span><i class="lv" data-lv="2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
-      <li><span>HTML / CSS</span><i class="lv" data-lv="2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
-      <li><span>Google Apps Script</span><i class="lv" data-lv="2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
-      <li><span>ISMS</span><i class="lv" data-lv="2" role="img" aria-label="3段階中2"><b></b><b></b><b></b></i></li>
-      <li><span>SQL</span><i class="lv" data-lv="1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
-      <li><span>GCP</span><i class="lv" data-lv="1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
-      <li><span>ライブ配信</span><i class="lv" data-lv="1" role="img" aria-label="3段階中1"><b></b><b></b><b></b></i></li>
-    </ul>
-  </section>
+    <section class="panel" id="p-inhouse" role="tabpanel" aria-labelledby="t-inhouse" hidden>
+      <h2>しごと</h2>
+      <div class="items" id="items-inhouse"></div>
+    </section>
 
-  <section class="contact wrap">
-    <h2>Contact</h2>
-    <p class="mail"><button id="mail" type="button" data-mail="contact@klavier.page">contact@klavier.page</button><span id="mail-state" role="status" aria-live="polite">押すとコピーします</span></p>
-  </section>
+    <section class="panel" id="p-works" role="tabpanel" aria-labelledby="t-works" hidden>
+      <h2>さくひん</h2>
+      <div class="items" id="items-private"></div>
+    </section>
 
-  <footer class="wrap">© NAOKI MAKITA</footer>
-</main>
+    <section class="panel" id="p-contact" role="tabpanel" aria-labelledby="t-contact" hidden>
+      <h2>れんらく</h2>
+      <button class="mail" id="mail" type="button" data-mail="contact@klavier.page">contact@klavier.page</button>
+      <span class="mail-state" id="mail-state" role="status" aria-live="polite">押すとコピーします</span>
+    </section>
+  </main>
+
+  <div class="talk">
+    <nav class="choices" role="tablist" aria-label="メニュー" aria-orientation="vertical">
+      <button class="cmd" role="tab" id="t-skills" aria-controls="p-skills" aria-selected="true">つよさを みる</button>
+      <button class="cmd" role="tab" id="t-career" aria-controls="p-career" aria-selected="false" tabindex="-1">けいれきを きく</button>
+      <button class="cmd" role="tab" id="t-inhouse" aria-controls="p-inhouse" aria-selected="false" tabindex="-1">しごとを みる</button>
+      <button class="cmd" role="tab" id="t-works" aria-controls="p-works" aria-selected="false" tabindex="-1">さくひんを みる</button>
+      <button class="cmd" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="false" tabindex="-1">れんらくする</button>
+    </nav>
+    <div class="window message" aria-live="polite">
+      <span class="name">マキタ ナオキ</span>
+      <p class="say" id="say"></p>
+    </div>
+  </div>
+</div>
 
 <dialog id="detail" aria-labelledby="detail-title">
-  <button class="close" type="button" aria-label="閉じる" onclick="this.closest('dialog').close()">×</button>
   <img id="detail-img" alt="">
-  <div class="body"><h3 id="detail-title"></h3><p id="detail-text"></p></div>
+  <div class="body">
+    <h3 id="detail-title"></h3>
+    <p id="detail-text"></p>
+    <button class="close" id="detail-close" type="button">とじる</button>
+  </div>
 </dialog>
 
 <script>
-// 作品一覧
 const IMG = 'img/';
-const WORKS = [
-  { title: '社内システム改修', tag: 'In-house', img: 'i3.jpg', text: 'FileMaker・GASによる業務改善。ClarisEngage 2020 登壇。' },
-  { title: '保守・運用', tag: 'In-house', img: 'i1.jpg', text: 'リモート環境構築、機器・サーバー管理、社内サポート、YouTube Live配信。' },
-  { title: 'カスタマー対応', tag: 'In-house', img: 'i2.jpg', text: '問い合わせ対応から、Webシステムの改修・再発防止まで。' },
-  { title: '音楽教室', tag: 'Coding', img: 'p2.jpg', url: 'https://cjmtokyo.com/' },
-  { title: '宿泊所', tag: 'Design / Coding', img: 'p3.jpg', url: 'https://launion.page/' },
-  { title: '医療事務支援', tag: 'Design / Coding', img: 'p4.jpg', url: 'https://accueil-med.jp/' },
-  { title: '動画配信', tag: 'Design / Coding', img: 'p5.jpg', url: 'https://fom-create.com/' },
-  { title: 'ピアノ曲事典', tag: 'Coding', img: 'p6.jpg', url: 'https://enc.piano.or.jp/' },
-];
 
-const list = document.getElementById('works-list');
+const SKILLS = [
+  ['FileMaker', 3], ['情シス', 3],
+  ['Ruby on Rails', 2], ['Nuxt.js', 2], ['HTML / CSS', 2], ['Google Apps Script', 2], ['ISMS', 2],
+  ['SQL', 1], ['GCP', 1], ['ライブ配信', 1],
+];
+const WORKS = [
+  { title: '社内システム改修', tag: 'In-house', group: 'inhouse', img: 'i3.jpg', text: 'FileMaker・GASによる業務改善。ClarisEngage 2020 登壇。' },
+  { title: '保守・運用', tag: 'In-house', group: 'inhouse', img: 'i1.jpg', text: 'リモート環境構築、機器・サーバー管理、社内サポート、YouTube Live配信。' },
+  { title: 'カスタマー対応', tag: 'In-house', group: 'inhouse', img: 'i2.jpg', text: '問い合わせ対応から、Webシステムの改修・再発防止まで。' },
+  { title: '音楽教室', tag: 'Coding', group: 'private', img: 'p2.jpg', url: 'https://cjmtokyo.com/' },
+  { title: '宿泊所', tag: 'Design / Coding', group: 'private', img: 'p3.jpg', url: 'https://launion.page/' },
+  { title: '医療事務支援', tag: 'Design / Coding', group: 'private', img: 'p4.jpg', url: 'https://accueil-med.jp/' },
+  { title: '動画配信', tag: 'Design / Coding', group: 'private', img: 'p5.jpg', url: 'https://fom-create.com/' },
+  { title: 'ピアノ曲事典', tag: 'Coding', group: 'private', img: 'p6.jpg', url: 'https://enc.piano.or.jp/' },
+];
+// 選んだ項目ごとのセリフ
+const SAY = {
+  skills: 'おぼえている わざを かくにんした。',
+  career: 'ここまで、こんな たびを してきた。',
+  inhouse: 'しごとで てがけたことを はなそう。',
+  works: 'これは、じぶんで つくった さくひんだ。',
+  contact: 'ぼうけんの なかまに なりたいなら、れんらくしてほしい！',
+};
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// レベル = 2017年からの年数
+document.getElementById('lv').textContent = new Date().getFullYear() - 2017;
+
+// つよさ
+const skillList = document.getElementById('skills');
+SKILLS.forEach(([name, lv], n) => {
+  const li = document.createElement('li');
+  const bars = [1, 2, 3].map(i => `<b class="${i <= lv ? 'on' : ''}" style="--i:${i}"></b>`).join('');
+  li.style.setProperty('--d', n * 50 + 'ms');
+  li.innerHTML = `<span></span><i class="bar" role="img" aria-label="3段階中${lv}">${bars}</i>`;
+  li.firstChild.textContent = name;
+  skillList.appendChild(li);
+});
+
+// さくひん
 const dlg = document.getElementById('detail');
 WORKS.forEach(w => {
   const b = document.createElement('button');
-  b.type = 'button';
-  b.className = 'work';
-  b.innerHTML = '<span class="frame"><img alt="" loading="lazy"></span><div><b></b><small></small></div>';
-  b.querySelector('img').src = IMG + w.img;
+  b.type = 'button'; b.className = 'item';
+  b.innerHTML = '<img loading="lazy"><b></b><small></small>';
+  const img = b.querySelector('img');
+  img.src = IMG + w.img; img.alt = '';
   b.querySelector('b').textContent = w.title;
   b.querySelector('small').textContent = w.tag;
   b.addEventListener('click', () => {
-    const img = document.getElementById('detail-img');
-    img.src = IMG + w.img; img.alt = w.title;
+    document.getElementById('detail-img').src = IMG + w.img;
     document.getElementById('detail-title').textContent = w.title;
     const p = document.getElementById('detail-text');
-    p.textContent = w.text || w.tag;
+    p.textContent = w.text || '';
     if (w.url) {
       const a = document.createElement('a');
       a.href = w.url; a.target = '_blank'; a.rel = 'noopener';
-      a.textContent = w.url.replace(/^https?:\/\/|\/$/g, '');
-      p.append(document.createElement('br'), a);
+      a.textContent = w.url.replace('https://', '').replace(/\/$/, '');
+      p.appendChild(a);
     }
     dlg.showModal();
   });
-  list.append(b);
+  document.getElementById('items-' + w.group).appendChild(b);
 });
+document.getElementById('detail-close').addEventListener('click', () => dlg.close());
 dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 
-// メールアドレスは押すとコピー（mailto はメールアプリの設定がないと動かないため）
-const mailBtn = document.getElementById('mail'), mailState = document.getElementById('mail-state');
-mailBtn.addEventListener('click', async () => {
-  const addr = mailBtn.dataset.mail;
-  try { await navigator.clipboard.writeText(addr); }
-  catch {
-    const r = document.createRange(); r.selectNodeContents(mailBtn);
-    getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy');
+// れんらく（押すとコピー）
+const mail = document.getElementById('mail');
+const mailState = document.getElementById('mail-state');
+mail.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(mail.dataset.mail);
+    mailState.textContent = 'コピーしました';
+  } catch {
+    mailState.textContent = 'コピーできませんでした。アドレスを選んで写してください';
   }
-  mailState.textContent = 'コピーしました'; mailState.classList.add('is-done');
-  clearTimeout(mailBtn._t);
-  mailBtn._t = setTimeout(() => { mailState.textContent = '押すとコピーします'; mailState.classList.remove('is-done'); }, 2000);
 });
 
-// 唯一の動き: ヒーローを下へ抜けるあいだ、鍵盤をゆっくり横へ流す
-(() => {
-  const keys = document.querySelector('.keys');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  let queued = false;
-  addEventListener('scroll', () => {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      const t = Math.min(1, scrollY / innerHeight);
-      keys.style.setProperty('--x', `calc(var(--kw) * ${(-t * 3.5).toFixed(3)})`);
-    });
-  }, { passive: true });
-})();
+// セリフ窓（1文字ずつ出す）
+const sayEl = document.getElementById('say');
+let typer;
+function say(text) {
+  clearInterval(typer);
+  if (reduce) { sayEl.textContent = text; return; }
+  let i = 0;
+  sayEl.textContent = '';
+  typer = setInterval(() => {
+    sayEl.textContent = text.slice(0, ++i);
+    if (i >= text.length) clearInterval(typer);
+  }, 35);
+}
+
+// 選択肢の切り替え（クリック・矢印キー）
+const tabs = [...document.querySelectorAll('.cmd')];
+function select(tab, focus) {
+  tabs.forEach(t => {
+    const on = t === tab;
+    t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
+    const panel = document.getElementById(t.getAttribute('aria-controls'));
+    panel.hidden = !on;
+    panel.classList.toggle('is-in', on);
+  });
+  if (focus) tab.focus();
+  say(SAY[tab.id.slice(2)]);
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => select(t));
+  t.addEventListener('keydown', e => {
+    const next = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    if (!next) return;
+    e.preventDefault();
+    select(tabs[(i + next + tabs.length) % tabs.length], true);
+  });
+});
+say(SAY.skills);
 </script>
 </body>
 </html>

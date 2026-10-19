@@ -162,13 +162,13 @@ dialog .close:focus-visible { outline: 2px solid var(--gold); }
 
   <main class="window">
     <section class="panel is-in" id="p-skills" role="tabpanel" aria-labelledby="t-skills">
-      <h2>強さ</h2>
+      <h2>つよさ</h2>
       <ul class="skills" id="skills"></ul>
       <p class="legend">ゲージ3つが最大。</p>
     </section>
 
     <section class="panel" id="p-career" role="tabpanel" aria-labelledby="t-career" hidden>
-      <h2>経歴</h2>
+      <h2>けいれき</h2>
       <!-- 会社名は書かない -->
       <ol class="log">
         <li><time>2017 — 2021</time><span>Webエンジニア<small>ClarisEngage 2020 登壇</small></span></li>
@@ -179,17 +179,17 @@ dialog .close:focus-visible { outline: 2px solid var(--gold); }
     </section>
 
     <section class="panel" id="p-inhouse" role="tabpanel" aria-labelledby="t-inhouse" hidden>
-      <h2>仕事</h2>
+      <h2>しごと</h2>
       <div class="items" id="items-inhouse"></div>
     </section>
 
     <section class="panel" id="p-works" role="tabpanel" aria-labelledby="t-works" hidden>
-      <h2>作品</h2>
+      <h2>さくひん</h2>
       <div class="items" id="items-private"></div>
     </section>
 
     <section class="panel" id="p-contact" role="tabpanel" aria-labelledby="t-contact" hidden>
-      <h2>連絡</h2>
+      <h2>れんらく</h2>
       <button class="mail" id="mail" type="button" data-mail="contact@klavier.page">contact@klavier.page</button>
       <span class="mail-state" id="mail-state" role="status" aria-live="polite">押すとコピーします</span>
     </section>
@@ -197,11 +197,11 @@ dialog .close:focus-visible { outline: 2px solid var(--gold); }
 
   <div class="talk">
     <nav class="choices" role="tablist" aria-label="メニュー" aria-orientation="vertical">
-      <button class="cmd" role="tab" id="t-skills" aria-controls="p-skills" aria-selected="true">強さ</button>
-      <button class="cmd" role="tab" id="t-career" aria-controls="p-career" aria-selected="false" tabindex="-1">経歴</button>
-      <button class="cmd" role="tab" id="t-inhouse" aria-controls="p-inhouse" aria-selected="false" tabindex="-1">仕事</button>
-      <button class="cmd" role="tab" id="t-works" aria-controls="p-works" aria-selected="false" tabindex="-1">作品</button>
-      <button class="cmd" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="false" tabindex="-1">連絡</button>
+      <button class="cmd" role="tab" id="t-skills" aria-controls="p-skills" aria-selected="true">つよさ</button>
+      <button class="cmd" role="tab" id="t-career" aria-controls="p-career" aria-selected="false" tabindex="-1">けいれき</button>
+      <button class="cmd" role="tab" id="t-inhouse" aria-controls="p-inhouse" aria-selected="false" tabindex="-1">しごと</button>
+      <button class="cmd" role="tab" id="t-works" aria-controls="p-works" aria-selected="false" tabindex="-1">さくひん</button>
+      <button class="cmd" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="false" tabindex="-1">れんらく</button>
     </nav>
     <div class="window message" aria-live="polite">
       <span class="name">マキタ ナオキ</span>

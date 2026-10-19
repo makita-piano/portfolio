@@ -240,10 +240,10 @@ const WORKS = [
 // 選んだ項目ごとのセリフ
 const SAY = {
   skills: 'おぼえている わざを かくにんした。',
-  career: 'ここまで、こんな たびを してきた。',
-  inhouse: 'しごとで てがけたことを はなそう。',
-  works: 'これは、じぶんで つくった さくひんだ。',
-  contact: 'ぼうけんの なかまに なりたいなら、れんらくしてほしい！',
+  career: 'これまでの たびの きろくを ひらいた。',
+  inhouse: 'しごとの あしあとが のこっている。',
+  works: 'さくひんが ならんでいる。',
+  contact: 'ナオキに れんらくを とりますか？',
 };
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -297,6 +297,7 @@ mail.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(mail.dataset.mail);
     mailState.textContent = 'コピーしました';
+    say('アドレスを てにいれた！');
   } catch {
     mailState.textContent = 'コピーできませんでした。アドレスを選んで写してください';
   }

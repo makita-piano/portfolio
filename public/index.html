@@ -101,6 +101,19 @@ h2 { margin: 0 0 40px; font-family: 'Unbounded', sans-serif; font-weight: 300; f
 .work:hover b { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .work:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 6px; }
 
+/* In-house: 守備範囲。一言で言い切り、分野ごとに1行 */
+.lead { margin: 0 0 32px; font-size: clamp(17px, 2vw, 21px); line-height: 1.9; }
+.scope { margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.scope div { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.scope dt { color: var(--muted); font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 13px; }
+.scope dd { margin: 0; }
+
+/* Approach: 見出し1行＋説明。In-house の守備範囲と同じ区切り */
+.approach { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.approach li { padding: 20px 0; border-bottom: 1px solid var(--line); }
+.approach b { display: block; font-weight: 500; }
+.approach span { color: var(--muted); }
+
 /* 経歴: 1行ずつ */
 .career { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .career li { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
@@ -146,7 +159,7 @@ dialog p { margin: 0; color: var(--muted); }
 dialog .close { position: sticky; z-index: 1; top: 12px; float: right; margin: 12px 12px -52px 0; /* 下の余白を打ち消して画像の上に重ねる */ width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--stage); color: var(--ink); font-size: 20px; cursor: pointer; box-shadow: 0 0 0 1px var(--line); }
 
 @media (max-width: 600px) {
-  .career li { grid-template-columns: 1fr; gap: 2px; }
+  .career li, .scope div { grid-template-columns: 1fr; gap: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .keys, .hero h1, .hero p, dialog[open], dialog[open]::backdrop { animation: none; }
@@ -161,6 +174,31 @@ dialog .close { position: sticky; z-index: 1; top: 12px; float: right; margin: 1
     <p>In-house System Engineer</p>
     <div class="keys" aria-hidden="true"></div>
   </header>
+
+  <section id="in-house" class="wrap">
+    <h2>In-house</h2>
+    <p class="lead">端末の管理から業務システムの開発まで、<br>社内のIT全般を担当してきました。</p>
+    <dl class="scope">
+      <div><dt>Devices</dt><dd>キッティング・MDM・資産管理・ヘルプデスク</dd></div>
+      <div><dt>Network</dt><dd>LAN・Wi-Fi・VPN・サーバー運用・障害対応</dd></div>
+      <div><dt>Accounts</dt><dd>アカウント管理・権限設計・シングルサインオン・SaaSの導入</dd></div>
+      <div><dt>Security</dt><dd>ISMS（規程・内部監査・審査対応）・医療情報の安全管理・セキュリティ教育</dd></div>
+      <div><dt>Systems</dt><dd>FileMakerとGASによる業務システムの開発・自動化・業務改善</dd></div>
+      <div><dt>Development</dt><dd>Ruby on Rails・Nuxt.js・GitHub</dd></div>
+      <div><dt>Cloud</dt><dd>GCP・AWS・バックアップ</dd></div>
+      <div><dt>AI</dt><dd>生成AIツールの導入・利用ルールづくり・業務での活用</dd></div>
+    </dl>
+  </section>
+
+  <section id="approach" class="wrap">
+    <h2>Approach</h2>
+    <ul class="approach">
+      <li><b>ルールは、守れる形にして渡す</b><span>厳しすぎると破られ、ゆるすぎると意味がない。その間の線を、現場と一緒に探す。</span></li>
+      <li><b>人の弱さを前提に、仕組みを作る</b><span>うっかりも出来心も起きるものとして、起きにくい形にしておく。</span></li>
+      <li><b>白か黒かで決めず、程度で話す</b><span>グレーはあると認めたうえで、避けられるグレーは避ける。</span></li>
+      <li><b>顔の見える距離で仕事をする</b><span>小さな範囲で話し、小さな範囲で決める。その積み重ねを大事にする。</span></li>
+    </ul>
+  </section>
 
   <section id="works" class="wrap">
     <h2>Works</h2>
@@ -212,9 +250,6 @@ dialog .close { position: sticky; z-index: 1; top: 12px; float: right; margin: 1
 // 作品一覧
 const IMG = 'img/';
 const WORKS = [
-  { title: '社内システム改修', tag: 'In-house', img: 'i3.jpg', text: 'FileMaker・GASによる業務改善。ClarisEngage 2020 登壇。' },
-  { title: '保守・運用', tag: 'In-house', img: 'i1.jpg', text: 'リモート環境構築、機器・サーバー管理、社内サポート、YouTube Live配信。' },
-  { title: 'カスタマー対応', tag: 'In-house', img: 'i2.jpg', text: '問い合わせ対応から、Webシステムの改修・再発防止まで。' },
   { title: '音楽教室', tag: 'Coding', img: 'p2.jpg', url: 'https://cjmtokyo.com/' },
   { title: '宿泊所', tag: 'Design / Coding', img: 'p3.jpg', url: 'https://launion.page/' },
   { title: '医療事務支援', tag: 'Design / Coding', img: 'p4.jpg', url: 'https://accueil-med.jp/' },

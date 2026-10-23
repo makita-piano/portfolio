@@ -118,6 +118,7 @@ h2 { margin: 0 0 40px; font-family: 'Unbounded', sans-serif; font-weight: 300; f
 .career { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .career li { display: grid; grid-template-columns: 160px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .career small { display: block; color: var(--muted); font-size: 12px; }
+.career em { display: block; margin-top: 6px; font-style: normal; font-size: 14px; }
 .career time { color: var(--muted); font-family: 'Unbounded', sans-serif; font-weight: 300; font-size: 13px; }
 
 /* スキル: 名前と3段階のバー（動かさない） */
@@ -207,11 +208,11 @@ dialog .close { position: sticky; z-index: 1; top: 12px; float: right; margin: 1
 
   <section id="career" class="wrap">
     <h2>Career</h2>
-    <!-- 会社名は書かない。ずっと少人数の会社 -->
+    <!-- 会社名は書かない。業種と規模は書いてよい（2026-10-23）。2027- は次の勤め先に関わるので補足なし -->
     <ol class="career">
-      <li><time>2017 — 2021</time><span>Webエンジニア<small>ClarisEngage 2020 登壇</small></span></li>
-      <li><time>2021 — 2025</time><span>一人情シス</span></li>
-      <li><time>2025 — 2026</time><span>情シス</span></li>
+      <li><time>2017 — 2021</time><span>Webエンジニア<small>音楽・教育業界 / 50名</small><em>Webサイト・Webシステムの開発、FileMakerによる業務システムの開発</em></span></li>
+      <li><time>2021 — 2025</time><span>情シス<small>医療スタートアップ / 50名</small><em>端末・ネットワーク・アカウントの管理、ISMSの運用、医療情報の安全管理</em></span></li>
+      <li><time>2025 — 2026</time><span>情シス<small>建築・製造DX / 400名</small><em>社内ITの運用、業務の自動化、生成AIツールの導入と利用ルールづくり</em></span></li>
       <li><time>2027 —</time><span>情シス</span></li>
     </ol>
   </section>
@@ -254,7 +255,6 @@ const WORKS = [
   { title: '宿泊所', tag: 'Design / Coding', img: 'p3.jpg', url: 'https://launion.page/' },
   { title: '医療事務支援', tag: 'Design / Coding', img: 'p4.jpg', url: 'https://accueil-med.jp/' },
   { title: '動画配信', tag: 'Design / Coding', img: 'p5.jpg', url: 'https://fom-create.com/' },
-  { title: 'ピアノ曲事典', tag: 'Coding', img: 'p6.jpg', url: 'https://enc.piano.or.jp/' },
 ];
 
 const list = document.getElementById('works-list');
